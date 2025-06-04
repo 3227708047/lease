@@ -30,7 +30,7 @@
         <swagger.version>2.9.2</swagger.version>
         <jwt.version>0.11.2</jwt.version>
         <easycaptcha.version>1.6.2</easycaptcha.version>
-        <minio.version>8.2.0</minio.version>
+        <minio.version>8.5.2</minio.version>
         <knife4j.version>4.1.0</knife4j.version>
         <aliyun.sms.version>2.0.23</aliyun.sms.version>
     </properties>
