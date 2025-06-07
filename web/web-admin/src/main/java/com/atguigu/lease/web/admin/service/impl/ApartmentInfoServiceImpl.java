@@ -104,8 +104,8 @@ public class ApartmentInfoServiceImpl extends ServiceImpl<ApartmentInfoMapper, A
 
         //2.插入配套列表
         List<Long> facilityInfoIds = apartmentSubmitVo.getFacilityInfoIds();
-        ArrayList<ApartmentFacility> facilityList = new ArrayList<>();
         if (facilityInfoIds != null && !facilityInfoIds.isEmpty()) {
+            ArrayList<ApartmentFacility> facilityList = new ArrayList<>();
             for (Long facilityInfoId : facilityInfoIds) {
                 ApartmentFacility apartmentFacility = new ApartmentFacility();
                 apartmentFacility.setFacilityId(facilityInfoId);
@@ -202,6 +202,8 @@ public class ApartmentInfoServiceImpl extends ServiceImpl<ApartmentInfoMapper, A
         feeValueQueryWrapper.eq(ApartmentFeeValue::getApartmentId,id);
         apartmentFeeValueService.remove(feeValueQueryWrapper);
     }
+
+
 }
 
 

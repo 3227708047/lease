@@ -9,6 +9,9 @@ import lombok.*;
 @Schema(description = "图片信息表")
 @TableName(value = "graph_info")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class GraphInfo extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
