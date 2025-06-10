@@ -11,19 +11,19 @@ import java.util.Date;
 public class JwtUtil {
     static SecretKey secretKey = Keys.hmacShaKeyFor("MGRy8GUfKmub2aVHWA7HS6NQuUJHrDRg".getBytes());
 
-    public static String CreateToken(Long userId, String password) {
+    public static String CreateToken(Long userId, String Username) {
 
         String jwt = Jwts.builder()
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000))
                 .setSubject("LOGIN_USER")
                 .claim("userId", userId)
-                .claim("password", password)
+                .claim("username", Username)
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
         return jwt;
     }
 
-    public static void parseToke(String token){
+    public static Claims parseToke(String token){
         if(token == null){
             throw new LeaseException(ResultCodeEnum.TOKEN_INVALID);
         }
@@ -32,7 +32,8 @@ public class JwtUtil {
             JwtParser jwtParser = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build();
-            jwtParser.parseClaimsJws(token);
+            Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
+            return claimsJws.getBody();
         }catch (ExpiredJwtException e){
             throw new LeaseException(ResultCodeEnum.TOKEN_EXPIRED);
         }catch (JwtException e){
@@ -40,5 +41,8 @@ public class JwtUtil {
         }
     }
 
+    public static void main(String[] args) {
+        System.out.println(JwtUtil.CreateToken(2L, "user"));
+    }
 
 }

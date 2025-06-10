@@ -1,11 +1,15 @@
 package com.atguigu.lease.web.admin.controller.login;
 
 
+import com.atguigu.lease.common.login.LoginUser;
+import com.atguigu.lease.common.login.LoginUserHolder;
 import com.atguigu.lease.common.result.Result;
+import com.atguigu.lease.common.utils.JwtUtil;
 import com.atguigu.lease.web.admin.service.LoginService;
 import com.atguigu.lease.web.admin.vo.login.CaptchaVo;
 import com.atguigu.lease.web.admin.vo.login.LoginVo;
 import com.atguigu.lease.web.admin.vo.system.user.SystemUserInfoVo;
+import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -36,7 +40,9 @@ public class LoginController {
     @Operation(summary = "获取登陆用户个人信息")
     @GetMapping("info")
     public Result<SystemUserInfoVo> info() {
-        return Result.ok();
+        LoginUser loginUser = LoginUserHolder.getLoginUser();
+        SystemUserInfoVo result=loginService.getLoginUserInfoById(loginUser.getUserId());
+        return Result.ok(result);
     }
 
 
