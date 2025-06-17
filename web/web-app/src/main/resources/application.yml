@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 9292
 
 spring:
   datasource:
@@ -18,6 +18,12 @@ spring:
   jackson:
     time-zone: GMT+8
 
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+
 #用于打印框架生成的sql语句，便于调试
 mybatis-plus:
   configuration:
@@ -26,3 +32,9 @@ mybatis-plus:
 
 springdoc:
   default-flat-param-object: true
+
+aliyun:
+  sms:
+    access-key-id: LTAI5tLAGdWZC68jZX5JhHpi
+    access-key-secret: nZdnxNAeIVX056hzh47zZnc1NPou6m
+    endpoint: dysmsapi.aliyuncs.com

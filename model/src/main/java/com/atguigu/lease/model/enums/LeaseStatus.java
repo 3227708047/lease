@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum LeaseStatus implements BaseEnum {
-
     SIGNING(1, "签约待确认"),
     SIGNED(2, "已签约"),
     CANCELED(3, "已取消"),
@@ -32,6 +31,15 @@ public enum LeaseStatus implements BaseEnum {
     @Override
     public String getName() {
         return this.name;
+    }
+
+    public static LeaseStatus valueOfCode(int code) {
+        for (LeaseStatus status : values()) {
+            if (status.code == code) {
+                return status;
+            }
+        }
+        throw new IllegalArgumentException("Invalid code: " + code);
     }
 
 }

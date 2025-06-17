@@ -1,5 +1,6 @@
 package com.atguigu.lease.web.admin.service.impl;
 
+import com.atguigu.lease.common.constant.RedisConstant;
 import com.atguigu.lease.model.entity.*;
 import com.atguigu.lease.model.enums.ItemType;
 import com.atguigu.lease.model.enums.ReleaseStatus;
@@ -18,6 +19,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -74,6 +76,9 @@ public class RoomInfoServiceImpl extends ServiceImpl<RoomInfoMapper, RoomInfo>
     @Autowired
     private LeaseTermMapper leaseTermMapper;
 
+    @Autowired
+    private RedisTemplate<String,Object> redisTemplate;
+
 
     @Override
     public void saveOrUpdateApartment(RoomSubmitVo roomSubmitVo) {
@@ -111,6 +116,10 @@ public class RoomInfoServiceImpl extends ServiceImpl<RoomInfoMapper, RoomInfo>
             LambdaQueryWrapper<RoomLeaseTerm> RoomLeaseTermWrapper = new LambdaQueryWrapper<>();
             RoomLeaseTermWrapper.eq(RoomLeaseTerm::getRoomId,roomSubmitVo.getId());
             roomLeaseTermService.remove(RoomLeaseTermWrapper);
+
+            //删除缓存
+            String key = RedisConstant.APP_ROOM_PREFIX+roomSubmitVo.getId();
+            redisTemplate.delete(key);
         }
         // 1.插入图片列表
         List<GraphVo> graphVoList = roomSubmitVo.getGraphVoList();
@@ -270,6 +279,10 @@ public class RoomInfoServiceImpl extends ServiceImpl<RoomInfoMapper, RoomInfo>
         LambdaQueryWrapper<RoomLeaseTerm> RoomLeaseTermWrapper = new LambdaQueryWrapper<>();
         RoomLeaseTermWrapper.eq(RoomLeaseTerm::getRoomId,id);
         roomLeaseTermService.remove(RoomLeaseTermWrapper);
+
+        //删除缓存
+        String key = RedisConstant.APP_ROOM_PREFIX + id;
+        redisTemplate.delete(key);
 
     }
 
